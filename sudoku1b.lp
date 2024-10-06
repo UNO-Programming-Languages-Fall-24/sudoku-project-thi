@@ -1,0 +1,29 @@
+% Sudoku Solver
+% Question 1b
+
+subgrid(X, Y, G) :- X=1..2, Y= 1..2, G=1.
+% achieved: top left subgrid 
+
+subgrid(X, Y, G) :- X=1..2, Y= 3..4, G=2.
+% achieved: top right subgrid
+
+subgrid(X, Y, G) :- X=3..4, Y= 1..2, G=3.
+% achieved: bottom left subgrid
+
+subgrid(X, Y, G) :- X=3..4, Y= 3..4, G=4.
+% achieved: bottom right subgrid
+
+{ sudoku(X, Y, N) : N = 1..4 } = 1 :- subgrid(X, Y, G).
+% achieved: for every cell, assign a number from 1 to 4
+
+N1 = N2 :- sudoku(X1, Y1, N1), initial(X2, Y2, N2), X1=X2, Y1=Y2.
+% achieved: if the value in cell(X,Y) is provided in 'initial', take that value
+
+:- sudoku(X1, Y1, N1), sudoku(X2, Y2, N2), X1=X2, N1=N2, Y1!=Y2.
+% achieved: eliminate the solutions that have two cells on the same row with the same value 
+
+:- sudoku(X1, Y1, N1), sudoku(X2, Y2, N2), X1!=X2, N1=N2, Y1=Y2.
+% achieved: eliminate the solutions that have two cells on the same columns with the same value 
+
+#show subgrid/3.
+#show sudoku/3.
